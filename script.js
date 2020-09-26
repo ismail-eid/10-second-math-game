@@ -1,7 +1,7 @@
 // count down function
 // I know it's not good to use set interval for time related scenarios, but I deliberately used it.
 var timer;
-var countDownTimer = function (number, message) {
+var countDownTimer = function (number) {
   var count = number;
   timer = window.setInterval(function () {
     if (count > 0) {
@@ -17,28 +17,6 @@ var countDownTimer = function (number, message) {
       $('#restart').css('display', 'inline')
     }
   }, 1000)
-}
-
-// get random question  
-var randomQuestionTeller = function () {
-  // make range array from the last argument
-  var rangeArray = _.range(1, arguments[arguments.length - 1]);
-  // make array of arithmatic operators
-  var arithmaticArray = [];
-  for (var i = 0; i < arguments.length - 1; i++) {
-    arithmaticArray.push(arguments[i])
-  }
-  // get two numbers and sort
-  var randomArray = [];
-  randomArray.push(_.sample(rangeArray));
-  randomArray.push(_.sample(rangeArray));
-  randomArray = randomArray.sort(function (a, b) {
-    return b - a;
-  });
-
-  var randomQuestion = randomArray[0] + ' ' + _.sample(arithmaticArray) + ' ' + randomArray[1];
-  $('#question').text(randomQuestion);
-  return randomQuestion;
 }
 
 // caculate question function 
@@ -60,6 +38,40 @@ var resultCalculator = function (string) {
   }
 }
 
+// get random question  
+var randomQuestionTeller = function () {
+  // make range array from the last argument
+  var rangeArray = _.range(1, arguments[arguments.length - 1]);
+  // make array of arithmatic operators
+  var arithmaticArray = [];
+  if ($('#plus').prop('checked')) {
+    arithmaticArray.push('+')
+  }
+
+  if ($('#minus').prop('checked')) {
+    arithmaticArray.push('-')
+  }
+
+  if ($('#mult').prop('checked')) {
+    arithmaticArray.push('x')
+  }
+
+  if ($('#division').prop('checked')) {
+    arithmaticArray.push('/')
+  }
+  // get two numbers and sort
+  var randomArray = [];
+  randomArray.push(_.sample(rangeArray));
+  randomArray.push(_.sample(rangeArray));
+  randomArray = randomArray.sort(function (a, b) {
+    return b - a;
+  });
+
+  var randomQuestion = randomArray[0] + ' ' + _.sample(arithmaticArray) + ' ' + randomArray[1];
+  $('#question').text(randomQuestion);
+  
+}
+
 // start game function
 var startGame = function () {
    // give the value of range to it's corresponding element
@@ -71,7 +83,7 @@ var startGame = function () {
    })
   
    // get question
-  randomQuestionTeller('+', range);
+  randomQuestionTeller(range);
   $('#restart').css('display', 'none')
   $('input[type=number]').on('input', function () {
     window.clearInterval(timer)
@@ -82,7 +94,7 @@ var startGame = function () {
     // if result is correct display onother question and make possible changes
     if (input === result) {
       // update the question
-      randomQuestionTeller('+', range)
+      randomQuestionTeller(range)
       // update current score
       $('#current-score').text(Number($('#current-score').text()) + 1);
       $('input[type=number]').val('')
@@ -97,7 +109,6 @@ var startGame = function () {
 $(document).ready(function () {
   // start the game
   startGame();
-
   //restart the game;
   $('#restart').click(function () {
     $('#time-left').text('10');
