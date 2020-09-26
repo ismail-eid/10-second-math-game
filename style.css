@@ -1,0 +1,27 @@
+
+body {
+  background: url(./images/background1.jpg) top center no-repeat;
+}
+
+.container {
+  width: 580px;
+  height: 400px;
+  margin-top: 160px;
+  transform: translateX(-10px);
+  color: #054003;
+  font-weight: 700;
+  font-family: 'Courier Prime', monospace;
+}
+
+p {
+  font-size: 20px;
+}
+
+#current-score, 
+#high-score {
+  color: red;
+}
+
+#restart {
+  display: none;
+}
