@@ -66,10 +66,21 @@ var randomQuestionTeller = function () {
   randomArray = randomArray.sort(function (a, b) {
     return b - a;
   });
+  var randomArithmatic = _.sample(arithmaticArray);
 
-  var randomQuestion = randomArray[0] + ' ' + _.sample(arithmaticArray) + ' ' + randomArray[1];
+  if (randomArithmatic === '/') {
+    while (!Number.isInteger(randomArray[0] / randomArray[1])) {
+      var randomArray = [];
+  randomArray.push(_.sample(rangeArray));
+  randomArray.push(_.sample(rangeArray));
+  randomArray = randomArray.sort(function (a, b) {
+    return b - a;
+  });
+    }
+  }
+  var randomQuestion = randomArray[0] + ' ' + randomArithmatic + ' ' + randomArray[1];
   $('#question').text(randomQuestion);
-  
+  return randomArithmatic;
 }
 
 // start game function
